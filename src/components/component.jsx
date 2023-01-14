@@ -1,37 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import MyInput from "./myInput";
 
-const User = () => {
-  const userAPI = [
-    {
-      id: 1,
-      name: "Соловьев Двмитрий Викторовичь",
-      auto: "Mazda 626 1996",
-      phone: "+79112572963",
-      yearOfBirth: "12.07.1976",
-      VIN: "1231GGDWEGV123",
-      term: "12.02.2023",
-    },
-    {
-      id: 2,
-      name: "Соловьев Двмитрий Викторовичь",
-      auto: "Mazda 323 1996",
-      phone: "+79112572963",
-      yearOfBirth: "10.05.1983",
-      VIN: "1231GGDWEGV123",
-      term: "15.01.2023",
-    },
-    {
-      id: 3,
-      name: "Соловьев Двмитрий Викторовичь",
-      auto: "Nissan Almera 2004",
-      phone: "+79112572963",
-      yearOfBirth: "02.08.1996",
-      VIN: "1231GGDWEGV123",
-      term: "10.12.2022",
-    },
-  ];
-
-  const [users, setUsers] = useState(userAPI);
+const Component = (props) => {
   const [names, setName] = useState("");
   const [autos, setAuto] = useState("");
   const [phones, setPhone] = useState("");
@@ -40,7 +10,7 @@ const User = () => {
   const [terms, setTerm] = useState("");
 
   const clickDelete = (id) => {
-    setUsers(users.filter((user) => user.id !== id));
+    props.setData(props.data.filter((user) => user.id !== id));
   };
 
   const remuvePlayer = () => {
@@ -53,7 +23,35 @@ const User = () => {
   };
 
   const remuve = () => {
-    setUsers(userAPI);
+    props.setData([
+      {
+        id: 1,
+        name: "Соловьев Двмитрий Викторовичь",
+        auto: "Mazda 626 1996",
+        phone: "+79112572963",
+        yearOfBirth: "12.07.1976",
+        VIN: "1231GGDWEGV123",
+        term: "12.02.2023",
+      },
+      {
+        id: 2,
+        name: "Соловьев Двмитрий Викторовичь",
+        auto: "Mazda 323 1996",
+        phone: "+79112572963",
+        yearOfBirth: "10.05.1983",
+        VIN: "1231GGDWEGV123",
+        term: "15.01.2023",
+      },
+      {
+        id: 3,
+        name: "Соловьев Двмитрий Викторовичь",
+        auto: "Nissan Almera 2004",
+        phone: "+79112572963",
+        yearOfBirth: "02.08.1996",
+        VIN: "1231GGDWEGV123",
+        term: "10.12.2022",
+      },
+    ]);
   };
 
   const addNewPerson = (e) => {
@@ -67,51 +65,29 @@ const User = () => {
       term: terms,
     };
     console.log(newUser);
-    setUsers([...users, newUser]);
+    props.setData([...props.data, newUser]);
     remuvePlayer();
   };
 
   return (
     <>
       <div className="btn">
-        <input
-          value={names}
-          onChange={(e) => setName(e.target.value)}
-          type="text"
-          placeholder="ФИО"
-        ></input>
-        <input
-          value={autos}
-          onChange={(e) => setAuto(e.target.value)}
-          type="text"
-          placeholder="авто"
-        ></input>
-        <input
-          value={phones}
-          onChange={(e) => setPhone(e.target.value)}
-          type="text"
-          placeholder="Номер телефона"
-        ></input>
-        <input
-          onChange={(e) => setYearOfBirth(e.target.value)}
-          value={yearOfBirths}
-          type="text"
-          placeholder="Год рождения"
-        ></input>
-        <input
-          value={VINs}
-          onChange={(e) => setVIN(e.target.value)}
-          type="text"
-          placeholder="VIN номер"
-        ></input>
-        <input
-          value={terms}
-          onChange={(e) => setTerm(e.target.value)}
-          type="text"
-          placeholder="Срок действия"
-        ></input>
+        <MyInput
+          name={names}
+          auto={autos}
+          phone={phones}
+          yearOfBirth={yearOfBirths}
+          VIN={VINs}
+          term={terms}
+          setName={setName}
+          setAuto={setAuto}
+          setPhone={setPhone}
+          setYearOfBirth={setYearOfBirth}
+          setVIN={setVIN}
+          setTerm={setTerm}
+        />
       </div>
-      {users.length > 0 ? (
+      {props.data.length > 0 ? (
         <table class="table">
           <thead>
             <tr>
@@ -123,10 +99,11 @@ const User = () => {
               <th scope="col">VIN номер</th>
               <th scope="col">Срок действия</th>
               <th />
+              <th />
             </tr>
           </thead>
           <tbody>
-            {users.map((user, index) => (
+            {props.data.map((user, index) => (
               <tr key={user.id}>
                 <td>{index + 1}</td>
                 <td>{user.name}</td>
@@ -165,4 +142,4 @@ const User = () => {
   );
 };
 
-export default User;
+export default Component;
